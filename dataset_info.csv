@@ -1,0 +1,11 @@
+mtp_setting, dataset_name, #instances, #targets, #instance_features, #target_features
+Multi-label_classification, bibtex, 7395, 159, 1836, 159
+Multi-label_classification, Corel5k, 5000, 374, 499, 374
+Multivariate_regression, rf2, 9125, 8, 576, 8
+Multivariate_regression, scm1d, 9803, 16, 280, 16
+Multi-task_learning, dog, 800, 52, 3*224*224, 52
+Multi-task_learning, bird, 2000, 65, 3*224*224, 65
+Matrix_completion, movielens_100k, 943, 1682, 943, 1682
+Matrix_completion, movielens_1M, 6040, 3706, 6040, 3706
+Dyadic_prediction, ern, 1164, 154, 445, 445
+Dyadic_prediction, srn, 1821, 9884, 113, 1685
