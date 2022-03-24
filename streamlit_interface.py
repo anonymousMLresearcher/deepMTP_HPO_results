@@ -65,24 +65,18 @@ def get_ranking(
                 ),
             )
 
-            if resolution is None:
-                resolution = int(
-                    temp_data_dict["hyperopt_runtime_arr_mean"][-1]
-                    - temp_data_dict["hyperopt_runtime_arr_mean"][0]
-                )
-                print("Calculating maximum resolution: " + str(resolution))
-            global_x = np.linspace(
-                temp_data_dict["hyperopt_runtime_arr_mean"][0],
-                temp_data_dict["hyperopt_runtime_arr_mean"][-1],
-                resolution,
-            )
+        # calculate the min and max time points across all HPO methods
+        min_x = min([data[0][0] for HPO_name, data in data_per_HPO_method.items()])
+        max_x = max([data[0][-1] for HPO_name, data in data_per_HPO_method.items()])
+        if resolution is None:
+            resolution = int(max_x - min_x)
+            print("Calculating maximum resolution: " + str(resolution))
+        global_x = np.linspace(min_x, max_x, resolution)
+
+        for hp_name in HPO_names:
             interpolated_per_HPO_method[hp_name] = interpolator_per_HPO_method[hp_name](
                 global_x
             )
-
-            # end_point_per_HPO_method[hp_name] = np.where(
-            #    temp_data_dict["hyperopt_runtime_arr_mean"][-1] > global_x
-            # )[0][-1]
 
         raw_ratings_arr = np.array([d for d in interpolated_per_HPO_method.values()])
         if metric_option in ["RRMSE", "RMSE", "MSE", "MAE"]:
