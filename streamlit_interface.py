@@ -336,7 +336,9 @@ dir_structure_dict = get_file_structure(base_path)
 
 st.sidebar.title("HPO benchmarks for DeepMTP")
 
-viz_option = st.sidebar.radio("Visualization mode:", ("Individual", "Aggregated"))
+viz_option = st.sidebar.radio(
+    "Visualization mode:", ("Individual performance plots", "Aggregated ranking plots")
+)
 
 if viz_option == "Individual":
 
