@@ -340,7 +340,7 @@ viz_option = st.sidebar.radio(
     "Visualization mode:", ("Individual performance plots", "Aggregated ranking plots")
 )
 
-if viz_option == "Individual":
+if viz_option == "Individual performance plots":
 
     # dataset selector
     dataset_option = st.sidebar.selectbox(
