@@ -31,6 +31,7 @@ def get_ranking(
         interpolated_per_HPO_method = {}
         interpolator_per_HPO_method = {}
         data_per_HPO_method = {}
+        end_point_per_HPO_method = {}
         for hp_name in HPO_names:
 
             temp_dir = (
@@ -77,6 +78,9 @@ def get_ranking(
             interpolated_per_HPO_method[hp_name] = interpolator_per_HPO_method[hp_name](
                 global_x
             )
+            end_point_per_HPO_method[hp_name] = (
+                np.where(data_per_HPO_method[hp_name][0][-1] > global_x)[0][-1] + 1
+            )
 
         raw_ratings_arr = np.array([d for d in interpolated_per_HPO_method.values()])
         if metric_option in ["RRMSE", "RMSE", "MSE", "MAE"]:
@@ -90,6 +94,7 @@ def get_ranking(
         results_per_dataset[mode] = {
             "rankings": rankings_arr,
             "raw_ratings": raw_ratings_arr,
+            "end_points": end_point_per_HPO_method,
         }
 
     return results_per_dataset
