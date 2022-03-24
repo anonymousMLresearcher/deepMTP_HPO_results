@@ -324,18 +324,6 @@ def show_ranking_plots(rank_cols, data_dict, resolution, color_per_HPO_method):
                     line_color=color_per_HPO_method[list(hp_data.keys())[i]],
                 )
             )
-            average_end_point = np.mean(
-                [
-                    end_point["end_points"][hp_data.keys()[i]]
-                    for end_point in hp_data.values()
-                ]
-            )
-            fig.add_vline(
-                x=average_end_point,
-                line_width=3,
-                line_dash="dash",
-                line_color=color_per_HPO_method[HPO_names[i]],
-            )
         rank_cols[idx].plotly_chart(fig, use_container_width=True)
         idx += 1
 
@@ -564,7 +552,20 @@ else:
                         y=average_ranking[i, ~nan_ids],
                         mode="lines+markers",
                         name=HPO_names[i],
+                        line_color=color_per_HPO_method[HPO_names[i]],
                     )
+                )
+                average_end_point = np.mean(
+                    [
+                        end_point[mode]["end_points"][HPO_names[i]]
+                        for end_point in result_per_dataset
+                    ]
+                )
+                fig.add_vline(
+                    x=average_end_point,
+                    line_width=3,
+                    line_dash="dash",
+                    line_color=color_per_HPO_method[HPO_names[i]],
                 )
             st.title(mode)
             st.plotly_chart(fig, use_container_width=True)
