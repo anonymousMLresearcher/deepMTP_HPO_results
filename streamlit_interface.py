@@ -325,7 +325,10 @@ def show_ranking_plots(rank_cols, data_dict, resolution, color_per_HPO_method):
                 )
             )
             average_end_point = np.mean(
-                [end_point["end_points"][hp_data.keys()[i]] for end_point in hp_data]
+                [
+                    end_point["end_points"][hp_data.keys()[i]]
+                    for end_point in hp_data.values()
+                ]
             )
             fig.add_vline(
                 x=average_end_point,
