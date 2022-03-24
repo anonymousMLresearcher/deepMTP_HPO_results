@@ -1,0 +1,9 @@
+  Hyperparameters:
+    batch_norm, Type: Categorical, Choices: {yes, no}, Default: yes
+    dropout_rate, Type: UniformFloat, Range: [0.0, 0.9], Default: 0.4
+    embedding_size, Type: UniformInteger, Range: [8, 2048], Default: 64
+    layers_per_branch_1, Type: Ordinal, Sequence: {1, 2}, Default: 1
+    learning_rate, Type: UniformFloat, Range: [1e-06, 0.001], Default: 0.001, on log-scale
+  Conditions:
+    batch_norm | layers_per_branch_1 > 1
+    dropout_rate | layers_per_branch_1 > 1

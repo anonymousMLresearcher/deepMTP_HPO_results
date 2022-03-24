@@ -19,6 +19,14 @@ def get_list_of_settings(aggregate_option):
         return aggregate_option
 
 
+@st.experimental_memo
+def get_config_from_txt(MTP_setting_name):
+    file = open("config_spaces/" + MTP_setting_name + ".txt", "r")
+    config = file.read()
+    file.close()
+    return config
+
+
 def get_ranking(
     base_path="streamlit_cached_data/",
     dataset_option="bibtex",
@@ -362,12 +370,15 @@ if viz_option == "Individual performance plots":
     dataset_option = st.sidebar.selectbox(
         "Select a dataset", list(dir_structure_dict.keys())
     )
+    col1, col2 = st.columns([2, 1])
 
-    st.header("Basic Dataset info")
+    col1.header("Basic Dataset info")
     dataset_info_df = get_dataset_info("dataset_info.csv")
+    col1.dataframe(dataset_info_df[dataset_info_df["dataset_name"] == dataset_option])
 
-    st.dataframe(dataset_info_df[dataset_info_df["dataset_name"] == dataset_option])
-
+    col2.header("Hyperparameter space details")
+    experiment_config = get_config_from_txt(dataset_option)
+    col2.text(experiment_config)
     st.markdown("""---""")
 
     # performance metric selector, conditioned on the selected dataset
