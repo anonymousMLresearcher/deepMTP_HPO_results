@@ -154,7 +154,7 @@ def get_file_structure(base_path):
     return dir_structure_dict
 
 
-def show_performance_plots(plot_cols, data_dict):
+def show_performance_plots(plot_cols, data_dict, color_per_HPO_method):
     idx = 0
     for mode, hp_data in data_dict.items():
 
@@ -186,6 +186,7 @@ def show_performance_plots(plot_cols, data_dict):
                         y=hyperopt_performance_arr_mean,
                         mode="lines+markers",
                         name=hp_name,
+                        line_color=color_per_HPO_method[hp_name],
                     )
                 )
                 if error_type == "min_max":
@@ -251,7 +252,7 @@ def show_performance_plots(plot_cols, data_dict):
         idx += 1
 
 
-def show_ranking_plots(rank_cols, data_dict, resolution):
+def show_ranking_plots(rank_cols, data_dict, resolution, color_per_HPO_method):
     idx = 0
     for mode, hp_data in data_dict.items():
         interpolated_per_HPO_method = {}
@@ -320,12 +321,29 @@ def show_ranking_plots(rank_cols, data_dict, resolution):
                     y=rankings_arr[i, ~nan_ids],
                     mode="lines+markers",
                     name=list(hp_data.keys())[i],
+                    line_color=color_per_HPO_method[list(hp_data.keys())[i]],
                 )
+            )
+            average_end_point = np.mean(
+                [end_point["end_points"][hp_data.keys()[i]] for end_point in hp_data]
+            )
+            fig.add_vline(
+                x=average_end_point,
+                line_width=3,
+                line_dash="dash",
+                line_color=color_per_HPO_method[HPO_names[i]],
             )
         rank_cols[idx].plotly_chart(fig, use_container_width=True)
         idx += 1
 
 
+color_per_HPO_method = {
+    "hyperband": "#636EFA",
+    "random_search": "#EF553B",
+    "2_x_random_search": "#00CC96",
+    "SMAC": "#AB63FA",
+    "BOHB": "#FFA15A",
+}
 base_path = "streamlit_cached_data/"
 visualize_error = "area"
 error_type = "std"
@@ -400,13 +418,13 @@ if viz_option == "Individual performance plots":
                 "averaging_option": averaging_option,
             }
 
-    show_performance_plots(plot_cols, data_dict)
+    show_performance_plots(plot_cols, data_dict, color_per_HPO_method)
 
     resolution = st.slider("Define the sampling resolution: ", 10, 1000, 100)
 
     rank_cols = [c for c in st.columns(2)]
 
-    show_ranking_plots(rank_cols, data_dict, resolution)
+    show_ranking_plots(rank_cols, data_dict, resolution, color_per_HPO_method)
 
 
 else:
