@@ -79,11 +79,10 @@ def get_ranking(
             interpolated_per_HPO_method[hp_name] = interpolator_per_HPO_method[hp_name](
                 global_x
             )
-            """
-            end_point_per_HPO_method[hp_name] = np.where(
-                temp_data_dict["hyperopt_runtime_arr_mean"][-1] > global_x
-            )[0][-1]
-            """
+
+            # end_point_per_HPO_method[hp_name] = np.where(
+            #    temp_data_dict["hyperopt_runtime_arr_mean"][-1] > global_x
+            # )[0][-1]
 
         raw_ratings_arr = np.array([d for d in interpolated_per_HPO_method.values()])
         if metric_option in ["RRMSE", "RMSE", "MSE", "MAE"]:
