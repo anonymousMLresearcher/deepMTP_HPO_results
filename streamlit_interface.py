@@ -370,7 +370,7 @@ if viz_option == "Individual performance plots":
     dataset_option = st.sidebar.selectbox(
         "Select a dataset", list(dir_structure_dict.keys())
     )
-    col1, col2, col3 = st.columns([3, 1, 2])
+    col1, col2, col3 = st.columns([4, 1, 3])
 
     col1.header("Basic Dataset info")
     dataset_info_df = get_dataset_info("dataset_info.csv")
