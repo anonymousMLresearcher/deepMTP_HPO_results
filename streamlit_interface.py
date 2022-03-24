@@ -13,6 +13,8 @@ def get_list_of_settings(aggregate_option):
         return ["MLC", "MTL", "DP"]
     elif aggregate_option == "Regression":
         return ["MTR", "MC"]
+    elif aggregate_option == "All datasets":
+        return ["MLC", "MTR", "MTL", "MC", "DP"]
     else:
         return aggregate_option
 
@@ -499,7 +501,16 @@ else:
         # aggregate selector
         aggregate_option = st.sidebar.selectbox(
             "Select a aggregation mode",
-            ["Classification", "Regression", "MLC", "MTR", "MTL", "MC", "DP"],
+            [
+                "Classification",
+                "Regression",
+                "MLC",
+                "MTR",
+                "MTL",
+                "MC",
+                "DP",
+                "All datasets",
+            ],
         )
 
         list_of_settings = get_list_of_settings(aggregate_option)
