@@ -140,7 +140,7 @@ def get_data_to_plot(temp_dir):
 
 @st.experimental_memo
 def get_dataset_info(temp_dir):
-    return pd.read_csv(temp_dir, sep=", ")
+    return pd.read_csv(temp_dir, sep=", ", engine="python")
 
 
 def get_file_structure(base_path):
