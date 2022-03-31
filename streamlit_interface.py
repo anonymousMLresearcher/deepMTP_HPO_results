@@ -517,6 +517,7 @@ else:
         aggregate_option = st.sidebar.selectbox(
             "Select a aggregation mode",
             [
+                "All datasets",
                 "Classification",
                 "Regression",
                 "MLC",
@@ -524,7 +525,6 @@ else:
                 "MTL",
                 "MC",
                 "DP",
-                "All datasets",
             ],
         )
 
