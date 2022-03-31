@@ -38,10 +38,11 @@ def get_ranking(
 
     results_per_dataset = {}
     for mode in ["val", "test"]:
-        interpolated_per_HPO_method = {}
+        interpolated_performance_per_HPO_method = {}
         interpolator_per_HPO_method = {}
         data_per_HPO_method = {}
         end_point_per_HPO_method = {}
+        raw_performance_arr = None
         for hp_name in HPO_names:
 
             temp_dir = (
@@ -85,25 +86,28 @@ def get_ranking(
         global_x = np.linspace(min_x, max_x, resolution)
 
         for hp_name in HPO_names:
-            interpolated_per_HPO_method[hp_name] = interpolator_per_HPO_method[hp_name](
-                global_x
-            )
+            interpolated_performance_per_HPO_method[
+                hp_name
+            ] = interpolator_per_HPO_method[hp_name](global_x)
             end_point_per_HPO_method[hp_name] = (
                 np.where(data_per_HPO_method[hp_name][0][-1] > global_x)[0][-1] + 1
             )
 
-        raw_ratings_arr = np.array([d for d in interpolated_per_HPO_method.values()])
+        raw_performance_arr = np.array(
+            [interpolated_performance_per_HPO_method[hp_name] for hp_name in HPO_names]
+        )
+
         if metric_option in ["RRMSE", "RMSE", "MSE", "MAE"]:
-            rankings_arr = rankdata(raw_ratings_arr, axis=0, method="min")
+            rankings_arr = rankdata(raw_performance_arr, axis=0, method="min")
         else:
-            rankings_arr = rankdata(-1 * raw_ratings_arr, axis=0, method="min")
+            rankings_arr = rankdata(-1 * raw_performance_arr, axis=0, method="min")
 
         rankings_arr = rankings_arr.astype(float)
-        rankings_arr[np.isnan(raw_ratings_arr)] = np.nan
+        rankings_arr[np.isnan(raw_performance_arr)] = np.nan
 
         results_per_dataset[mode] = {
             "rankings": rankings_arr,
-            "raw_ratings": raw_ratings_arr,
+            "raw_ratings": raw_performance_arr,
             "end_points": end_point_per_HPO_method,
         }
 
@@ -583,10 +587,7 @@ else:
                     )
                 )
                 average_end_point = np.mean(
-                    [
-                        end_point[mode]["end_points"][HPO_names[i]]
-                        for end_point in result_per_dataset
-                    ]
+                    [d[mode]["end_points"][HPO_names[i]] for d in result_per_dataset]
                 )
                 fig.add_vline(
                     x=average_end_point,
