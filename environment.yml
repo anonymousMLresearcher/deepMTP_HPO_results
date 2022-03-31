@@ -36,8 +36,10 @@ dependencies:
     - cffi==1.15.0
     - charset-normalizer==2.0.12
     - click==8.0.4
+    - cycler==0.11.0
     - defusedxml==0.7.1
     - entrypoints==0.4
+    - fonttools==4.31.2
     - gitdb==4.0.9
     - gitpython==3.1.27
     - idna==3.3
@@ -51,7 +53,9 @@ dependencies:
     - jupyter-core==4.9.2
     - jupyterlab-pygments==0.1.2
     - jupyterlab-widgets==1.0.2
+    - kiwisolver==1.4.2
     - markupsafe==2.1.0
+    - matplotlib==3.5.1
     - mistune==0.8.4
     - nbclient==0.5.11
     - nbconvert==6.4.2
@@ -83,7 +87,7 @@ dependencies:
     - send2trash==1.8.0
     - six==1.16.0
     - smmap==5.0.0
-    - streamlit==1.7.0
+    - streamlit==1.8.0
     - tenacity==8.0.1
     - terminado==0.13.2
     - testpath==0.6.0
